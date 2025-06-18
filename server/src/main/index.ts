@@ -6,18 +6,28 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { createLinksRoute, deleteLinksRoute, getAllLinksRoute, getOriginalUrlRoute, increaseLinkAccessCountRoute } from './routes'
+import {
+  createLinksRoute,
+  deleteLinksRoute,
+  getAllLinksRoute,
+  getOriginalUrlRoute,
+  increaseLinkAccessCountRoute,
+} from './routes'
 
 const app = fastify()
 
 app.setValidatorCompiler(validatorCompiler)
 app.setSerializerCompiler(serializerCompiler)
 
-app.setErrorHandler((error, request, reply) => {
+app.setErrorHandler((error, _request, reply) => {
   if (hasZodFastifySchemaValidationErrors(error)) {
-    return reply
-      .status(400)
-      .send({ message: 'Invalid request', errors: error.validation })
+    const errors = error.validation.map(error => ({
+      ...error.params.issue,
+    }))
+    return reply.status(400).send({
+      message: error.message,
+      errors,
+    })
   }
   return reply.status(500).send({ message: 'Internal server error' })
 })
@@ -40,4 +50,4 @@ app.register(getAllLinksRoute)
 app.register(getOriginalUrlRoute)
 app.register(increaseLinkAccessCountRoute)
 
-export { app };
+export { app }

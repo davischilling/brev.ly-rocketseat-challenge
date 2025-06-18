@@ -7,9 +7,15 @@ export class TokenGuard {
     return Symbol.for(value)
   }
 
-  static validateToken(envToken: symbol, passedToken: symbol, className: string) {
+  static validateToken(
+    envToken: symbol,
+    passedToken: symbol,
+    className: string
+  ) {
     if (envToken !== passedToken) {
-      throw new Error(`❌ Use ${className}.create() instead of direct instantiation.`)
+      throw new Error(
+        `❌ Use ${className}.create() instead of direct instantiation.`
+      )
     }
   }
 

@@ -1,5 +1,5 @@
 {
-  "id": "c7248b21-32d1-4acb-9fdd-d0282711b05d",
+  "id": "28c1009b-86f5-43be-a56f-54d83122e2d0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -14,34 +14,34 @@
           "primaryKey": true,
           "notNull": true
         },
-        "original_url": {
-          "name": "original_url",
+        "originalUrl": {
+          "name": "originalUrl",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "shortened_url": {
-          "name": "shortened_url",
+        "shortenedUrl": {
+          "name": "shortenedUrl",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "access_count": {
-          "name": "access_count",
-          "type": "text",
+        "accessCount": {
+          "name": "accessCount",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
-          "default": "'0'"
+          "default": 0
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updated_at": {
-          "name": "updated_at",
+        "updatedAt": {
+          "name": "updatedAt",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -52,12 +52,10 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "links_shortened_url_unique": {
-          "name": "links_shortened_url_unique",
+        "links_shortenedUrl_unique": {
+          "name": "links_shortenedUrl_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "shortened_url"
-          ]
+          "columns": ["shortenedUrl"]
         }
       },
       "policies": {},

@@ -1,4 +1,3 @@
-
 import { AbstractionEntity } from '@/domain/utils'
 import type { CreateLinkDTO, ILink, ILinkToJSON } from '../models/link.dto'
 

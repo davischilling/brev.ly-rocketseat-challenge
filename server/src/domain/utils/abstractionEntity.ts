@@ -11,11 +11,17 @@ type AbstractionEntityDTO = {
 
 export abstract class AbstractionEntity<ToJSON> {
   #id: string
-  #createdAt: Date;
-  #updatedAt: Date;
+  #createdAt: Date
+  #updatedAt: Date
 
   static internalToken = TokenGuard.getToken('ENTITY_TOKEN')
-  constructor({ id = uuidv4(), createdAt = new Date(), updatedAt = new Date(), token, entity }: AbstractionEntityDTO) {
+  constructor({
+    id = uuidv4(),
+    createdAt = new Date(),
+    updatedAt = new Date(),
+    token,
+    entity,
+  }: AbstractionEntityDTO) {
     TokenGuard.validateToken(AbstractionEntity.internalToken, token, entity)
     this.#id = this.idValidation(id)
     this.#createdAt = createdAt
@@ -42,7 +48,7 @@ export abstract class AbstractionEntity<ToJSON> {
     if (id && !uuidValidate(id)) {
       throw new Error('Id is not valid')
     }
-    return id;
+    return id
   }
 
   abstract toJSON(): ToJSON
