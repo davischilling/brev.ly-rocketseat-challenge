@@ -1,16 +1,11 @@
-import { ILinkToJSON, ILink } from "@/domain/models";
+import { ILinkRepository } from "@/domain/contracts";
+import { ILinkToJSON } from "@/domain/models";
+import { eq } from 'drizzle-orm';
 import { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import { schema } from "../schemas";
 import { RepositoriesService } from "./repositories";
-import { ILinkRepository } from "@/domain/contracts";
-import { eq } from 'drizzle-orm'
-
-type SchemaType = typeof schema
-type ColumnsType = SchemaType[keyof SchemaType]['_']['config']
 
 export class LinksRepository extends RepositoriesService<
-  typeof schema,
-  ColumnsType,
   ILinkToJSON
 > implements ILinkRepository<ILinkToJSON> {
   constructor(model: PostgresJsDatabase<typeof schema>) {
