@@ -1,16 +1,16 @@
-import type { IRepository } from '@/domain/contracts';
-import { eq } from 'drizzle-orm';
-import type { PgTableWithColumns, TableConfig } from 'drizzle-orm/pg-core';
-import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import type { schema } from "../schemas";
+import type { IRepository } from '@/domain/contracts'
+import { eq } from 'drizzle-orm'
+import type { PgTableWithColumns, TableConfig } from 'drizzle-orm/pg-core'
+import type { PostgresJsDatabase } from 'drizzle-orm/postgres-js'
+import type { schema } from '../schemas'
 
 export type SchemaType = typeof schema
-export type LinksTable = typeof schema.links;
+export type LinksTable = typeof schema.links
 
-export type AvailableTables = LinksTable;
-export abstract class RepositoriesService<
-  ToJSONDto
-> implements IRepository<ToJSONDto> {
+export type AvailableTables = LinksTable
+export abstract class RepositoriesService<ToJSONDto>
+  implements IRepository<ToJSONDto>
+{
   protected readonly model: PostgresJsDatabase<SchemaType>
   protected readonly schema: AvailableTables
 
@@ -20,7 +20,9 @@ export abstract class RepositoriesService<
   }
 
   async create(data: ToJSONDto): Promise<void> {
-    await this.model.insert(this.schema).values(data as AvailableTables["$inferInsert"])
+    await this.model
+      .insert(this.schema)
+      .values(data as AvailableTables['$inferInsert'])
   }
 
   async findAll(): Promise<ToJSONDto[]> {
@@ -35,7 +37,7 @@ export abstract class RepositoriesService<
   async update(id: string, data: ToJSONDto): Promise<ToJSONDto> {
     const [link] = await this.model
       .update(this.schema)
-      .set(data as PgTableWithColumns<TableConfig>["$inferInsert"])
+      .set(data as PgTableWithColumns<TableConfig>['$inferInsert'])
       .where(eq(this.schema.id, id))
       .returning()
     return link as ToJSONDto

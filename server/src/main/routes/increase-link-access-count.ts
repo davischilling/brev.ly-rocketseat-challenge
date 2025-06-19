@@ -1,11 +1,11 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { swaggerDocs } from '../docs/swagger'
 import { linksServiceFactory } from '../factories/links.factory'
-import { NotFoundError } from '@/application/errors/notFoundError'
+import { NotFoundError } from '@/application/errors'
 
 export const increaseLinkAccessCountRoute: FastifyPluginAsyncZod =
   async app => {
-    app.get(
+    app.patch(
       '/links/increase-access',
       swaggerDocs.INCREASE_ACCESS,
       async (request, reply) => {

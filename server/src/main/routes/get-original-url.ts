@@ -1,7 +1,7 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import { swaggerDocs } from '../docs/swagger'
 import { linksServiceFactory } from '../factories/links.factory'
-import { NotFoundError } from '@/application/errors/notFoundError'
+import { NotFoundError } from '@/application/errors'
 
 export const getOriginalUrlRoute: FastifyPluginAsyncZod = async app => {
   app.get(

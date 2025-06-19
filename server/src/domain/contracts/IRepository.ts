@@ -15,14 +15,14 @@ export type ILinkRepository<T> = {
 } & IRepository<T>
 
 export interface ISearchableParams {
-  searchQuery?: string;
-  sortBy?: 'createdAt';
-  sortDirection?: 'desc' | 'asc';
-  page?: number;
-  perPage?: number;
+  searchQuery?: string
+  sortBy?: 'createdAt'
+  sortDirection?: 'desc' | 'asc'
+  page?: number
+  perPage?: number
 }
 
 export interface Query {
-  sql: string;
-  params: unknown[];
+  sql: string
+  params: unknown[]
 }

@@ -1,4 +1,9 @@
-import { ICSVGenerator, type ILinkRepository, ISearchableParams, IValidation } from '@/domain/contracts'
+import type {
+  ICSVGenerator,
+  ILinkRepository,
+  ISearchableParams,
+  IValidation,
+} from '@/domain/contracts'
 import { Link } from '@/domain/entities'
 import type { CreateLinkDTO, ILinkToJSON } from '@/domain/models'
 import { LinkAlreadyExistsError } from '../errors'
@@ -8,8 +13,8 @@ export class LinksService {
   constructor(
     private readonly linksRepository: ILinkRepository<ILinkToJSON>,
     private readonly searchableParams: IValidation<ISearchableParams>,
-    private readonly csvGenerator: ICSVGenerator,
-  ) { }
+    private readonly csvGenerator: ICSVGenerator
+  ) {}
 
   async create(createLinkDto: CreateLinkDTO): Promise<ILinkToJSON> {
     const linkEntity = Link.create(createLinkDto).toJSON()
@@ -63,7 +68,8 @@ export class LinksService {
     csvUrl: string
   }> {
     const { searchQuery } = this.searchableParams.parse(input)
-    const { sql, params } = this.linksRepository.getSQLParamsByFilter(searchQuery)
+    const { sql, params } =
+      this.linksRepository.getSQLParamsByFilter(searchQuery)
     const { csvUrl } = await this.csvGenerator.generateCSV({ sql, params })
     return { csvUrl }
   }
