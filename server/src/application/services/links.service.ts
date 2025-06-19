@@ -8,8 +8,9 @@ import { Link } from '@/domain/entities'
 import type { CreateLinkDTO, ILinkToJSON } from '@/domain/models'
 import { LinkAlreadyExistsError } from '../errors'
 import { NotFoundError } from '../errors/notFoundError'
+import { ILinkUseCases } from '@/domain/usecases'
 
-export class LinksService {
+export class LinksService implements ILinkUseCases {
   constructor(
     private readonly linksRepository: ILinkRepository<ILinkToJSON>,
     private readonly searchableParams: IValidation<ISearchableParams>,

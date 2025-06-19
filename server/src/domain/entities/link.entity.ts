@@ -1,4 +1,4 @@
-import { AbstractionEntity } from '@/domain/utils'
+import { AbstractionEntity } from '@/domain/entities/utils'
 import type { CreateLinkDTO, ILink, ILinkToJSON } from '../models/link.dto'
 
 export class Link extends AbstractionEntity<ILinkToJSON> implements ILink {

@@ -1,4 +1,4 @@
-import { TokenGuard } from '@/domain/utils/tokenGuard'
+import { TokenGuard } from '@/domain/entities/utils/tokenGuard'
 
 type AbstractionValueObjectDTO = {
   token: symbol

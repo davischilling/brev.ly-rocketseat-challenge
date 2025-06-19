@@ -1,4 +1,4 @@
-import { TokenGuard } from '@/domain/utils/tokenGuard'
+import { TokenGuard } from '@/domain/entities/utils/tokenGuard'
 import { v4 as uuidv4, validate as uuidValidate } from 'uuid'
 
 type AbstractionEntityDTO = {
