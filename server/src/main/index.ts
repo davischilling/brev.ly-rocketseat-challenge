@@ -12,6 +12,7 @@ import {
   getAllLinksRoute,
   getOriginalUrlRoute,
   increaseLinkAccessCountRoute,
+  exportLinksRoute,
 } from './routes'
 
 const app = fastify()
@@ -49,5 +50,6 @@ app.register(deleteLinksRoute)
 app.register(getAllLinksRoute)
 app.register(getOriginalUrlRoute)
 app.register(increaseLinkAccessCountRoute)
+app.register(exportLinksRoute)
 
 export { app }

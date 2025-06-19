@@ -1,4 +1,4 @@
-import { db } from '@/infra/db'
+import { db } from '@/infra/PostgresDb'
 import { count, ilike } from 'drizzle-orm'
 
 export type TableTotalCount = {

@@ -1,12 +1,14 @@
-import { type ILinkRepository, IRepository } from '@/domain/contracts'
+import { ICSVGenerator, type ILinkRepository, ISearchableParams, IValidation } from '@/domain/contracts'
 import { Link } from '@/domain/entities'
-import type { CreateLinkDTO, ILink, ILinkToJSON } from '@/domain/models'
+import type { CreateLinkDTO, ILinkToJSON } from '@/domain/models'
 import { LinkAlreadyExistsError } from '../errors'
 import { NotFoundError } from '../errors/notFoundError'
 
 export class LinksService {
   constructor(
-    private readonly linksRepository: ILinkRepository<ILinkToJSON>
+    private readonly linksRepository: ILinkRepository<ILinkToJSON>,
+    private readonly searchableParams: IValidation<ISearchableParams>,
+    private readonly csvGenerator: ICSVGenerator,
   ) { }
 
   async create(createLinkDto: CreateLinkDTO): Promise<ILinkToJSON> {
@@ -48,14 +50,6 @@ export class LinksService {
     return this.linksRepository.update(link.id, link)
   }
 
-  // async findOne(id: string) {
-  //   return this.linksRepository.findById(id);
-  // }
-
-  // async update(id: string, updateUserDto: UpdateUserDto) {
-  //   return this.linksRepository.update(id, updateUserDto);
-  // }
-
   async remove(shortenedUrl: string) {
     const hasLink =
       await this.linksRepository.findOriginalUrlByShortenedUrl(shortenedUrl)
@@ -63,5 +57,14 @@ export class LinksService {
       throw new NotFoundError(shortenedUrl)
     }
     return this.linksRepository.remove(shortenedUrl)
+  }
+
+  async exportLinks(input: ISearchableParams): Promise<{
+    csvUrl: string
+  }> {
+    const { searchQuery } = this.searchableParams.parse(input)
+    const { sql, params } = this.linksRepository.getSQLParamsByFilter(searchQuery)
+    const { csvUrl } = await this.csvGenerator.generateCSV({ sql, params })
+    return { csvUrl }
   }
 }

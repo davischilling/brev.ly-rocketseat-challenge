@@ -1,6 +1,6 @@
-import { ILinkRepository } from "@/domain/contracts";
+import { ILinkRepository, Query } from "@/domain/contracts";
 import { ILinkToJSON } from "@/domain/models";
-import { eq } from 'drizzle-orm';
+import { eq, ilike } from 'drizzle-orm';
 import { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import { schema } from "../schemas";
 import { RepositoriesService } from "./repositories";
@@ -24,5 +24,14 @@ export class LinksRepository extends RepositoriesService<
   async remove(shortenedUrl: string): Promise<void> {
     await this.model.delete(schema.links)
       .where(eq(schema.links.shortenedUrl, shortenedUrl));
+  }
+
+  getSQLParamsByFilter(searchQuery?: string): Query {
+    return this.model.select()
+      .from(schema.links)
+      .where(
+        searchQuery ? ilike(schema.links.shortenedUrl, `%${searchQuery}%`) : undefined
+      )
+      .toSQL()
   }
 }

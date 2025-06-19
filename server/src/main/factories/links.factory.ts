@@ -1,8 +1,14 @@
 import { LinksService } from '@/application/services'
-import { db } from '@/infra/db'
-import { LinksRepository } from '@/infra/db/repositories/links.repository'
+import { CloudflareStorageService } from '@/infra/cloudfareStorage'
+import { CSVGeneratorSergvice } from '@/infra/csvStringify'
+import { db } from '@/infra/PostgresDb'
+import { LinksRepository } from '@/infra/PostgresDb/repositories/links.repository'
+import { searchableParams, SearchableParams, uploadFileToStorageInput, ZodValidator } from '@/infra/zodValidation'
 
 export const linksServiceFactory = (): LinksService => {
-  const repository = new LinksRepository(db)
-  return new LinksService(repository)
+  const linksRepository = new LinksRepository(db)
+  const storage = new CloudflareStorageService(uploadFileToStorageInput)
+  const csvService = new CSVGeneratorSergvice(storage)
+  const searchableParamsSchema = new ZodValidator<SearchableParams>(searchableParams)
+  return new LinksService(linksRepository, searchableParamsSchema, csvService)
 }

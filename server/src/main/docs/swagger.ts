@@ -1,4 +1,4 @@
-import { searchableParams } from '@/infra/db/utils'
+import { searchableParams } from '@/infra/zodValidation'
 import { z } from 'zod'
 
 const validationErrorResponse = z.object({
@@ -145,6 +145,20 @@ export const swaggerDocs = {
         200: linkResponse,
         404: z.object({
           message: z.string().describe('Link not found'),
+        }),
+      },
+    },
+  },
+  EXPORT_LINKS: {
+    schema: {
+      summary: 'Export links',
+      tags: ['links'],
+      querystring: z.object({
+        searchQuery: z.string().optional(),
+      }),
+      response: {
+        200: z.object({
+          csvUrl: z.string(),
         }),
       },
     },
